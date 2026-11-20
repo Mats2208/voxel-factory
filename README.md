@@ -32,7 +32,7 @@
 <p align="center"><img src="docs/media/poster.png" alt="Fotogramas de dos videos hechos con Voxel Factory: un gato y un robot voxel discutiendo, y una persona con gorra hablando con un cubo naranja de cara pixelada" width="760"/></p>
 <p align="center"><sub>Cada cuadro es un plano distinto que eligió la fábrica: un primer plano por línea de diálogo y un plano general alejado al final. Ninguno se encuadró a mano.</sub></p>
 
-**Contenido:** [Qué hace](#qué-hace) · [Pensado para agentes](#pensado-para-agentes) · [Install](#install) · [Uso](#uso) · [Local o Modal](#local-o-modal) · [Cómo funciona](#cómo-funciona) · [Qué no hace](#qué-no-hace)
+**Contenido:** [Qué hace](#qué-hace) · [Pensado para agentes](#pensado-para-agentes) · [Install](#install) · [Uso](#uso) · [Local o Modal](#local-o-modal) · [Cómo funciona](#cómo-funciona) · [Qué no hace](#qué-no-hace) · [Skill para agentes](#skill-para-agentes) · [Créditos](#créditos)
 
 ## Qué hace
 
@@ -54,7 +54,7 @@ La CLI está diseñada para que **otro agente** (Claude Code, Codex, Cursor) pue
 - `validate` lista **todos** los errores con su ruta (`shots[2].acting.B.emotion`) y una sugerencia.
 - Cada comando acepta `--json` y termina con códigos estables: 0 bien, 2 guion inválido, 3 falta una dependencia, 4 falló el render, 5 la verificación no pasó.
 
-No hay servidor MCP porque no hace falta: cualquier agente con terminal ya puede usarlo.
+No hay servidor MCP porque no hace falta: cualquier agente con terminal ya puede usarlo. Y para que no tenga que aprender a los golpes, el repo trae una **skill** lista para instalar (ver [Skill para agentes](#skill-para-agentes)).
 
 ## Install
 
@@ -130,6 +130,8 @@ Hay dos guiones listos en [`examples/`](examples). Un guion mínimo se ve así; 
 
 Si cortás `voxel.py`, se detiene también el app en la nube. `voxel.py cloud-stop` apaga cualquier render que haya quedado vivo.
 
+Regla práctica: iterá con `preview` en local (3 s a media resolución tardan unos 20 s) y mandá la toma final a Modal. Para mirar un solo fotograma sin calentar tu máquina: `preview --cloud modal --range 120 121`.
+
 ## Cómo funciona
 
 ```
@@ -147,6 +149,9 @@ guion.json ─▶ voxel.py ─┬─ voces (say · espeak-ng · ElevenLabs) ─�
 | `studio/cloud_modal.py` | Imagen de Blender para Modal, render por tramos y progreso en vivo. |
 | `characters/*.json` | Presets de personajes armados con piezas. |
 | `extras/voxel-progreso/` | Mod opcional de Claude Code que muestra el progreso del render sobre el prompt. |
+| `skills/voxel-factory/` | Skill para agentes: el recorrido completo, cómo escribir un buen guion y los errores que ya resolvimos. |
+
+La referencia completa de campos, comandos y códigos de salida vive en [`AGENTS.md`](AGENTS.md); `voxel.py schema` la imprime siempre al día con el código.
 
 ## Qué no hace
 
@@ -156,6 +161,21 @@ guion.json ─▶ voxel.py ─┬─ voces (say · espeak-ng · ElevenLabs) ─�
 - **El tiempo por palabra solo existe con ElevenLabs.** Con `say` o espeak-ng, la boca sigue el volumen del audio y los gestos se reparten en proporción a la línea.
 - **Está pensado para formato vertical 9:16.** Otras proporciones funcionan, pero los subtítulos y los encuadres no están ajustados para ellas.
 
+Si alguna de estas te frena, abrí un [issue](https://github.com/Mats2208/voxel-factory/issues): un escenario nuevo o un tipo de personaje suele ser un archivo, no una reescritura.
+
+## Skill para agentes
+
+[`skills/voxel-factory/SKILL.md`](skills/voxel-factory/SKILL.md) le enseña a cualquier agente a usar la fábrica sin prueba y error: cuándo usarla, cómo pasar de un pedido a un guion que funcione en cámara, cómo crear personajes, cómo elegir voces y qué hacer con cada error. Para instalarla:
+
+```sh
+ln -s "$PWD/skills/voxel-factory" ~/.claude/skills/voxel-factory   # Claude Code
+ln -s "$PWD/skills/voxel-factory" ~/.codex/skills/voxel-factory    # Codex
+```
+
+## Créditos
+
+Hecha por [Mateo Andres Soto Gareca](https://github.com/Mats2208). Se apoya en [Blender](https://www.blender.org) (EEVEE) para el render, [FFmpeg](https://ffmpeg.org) con libass para unir y subtitular, [Modal](https://modal.com) para las GPUs en la nube y [ElevenLabs](https://elevenlabs.io) para las voces. Los assets de la [página](https://mats2208.github.io/voxel-factory/) se generaron con gpt-image-2 a partir de fotogramas de la propia fábrica, y los dos videos de demo se renderizaron con ella.
+
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). Usala, modificala y hacé tus propios videos; si publicás algo hecho con la fábrica, una mención se agradece.

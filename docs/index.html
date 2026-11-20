@@ -39,6 +39,13 @@
   /* Los hijos de grid no deben estirar la columna por su contenido (código largo, videos). */
   .hero-copy > *, .demos > *, .use > *, .agents > *, .agent > div, .facts > * { min-width: 0; }
   body { overflow-x: clip; }
+  /* Selección limpia: arrastrar sobre la página selecciona solo texto, nunca bloques, imágenes ni decoración.
+     Sin esto, el resaltado cubre filas enteras y al copiar se arrastran textos alternativos de imágenes. */
+  body { -webkit-user-select: none; user-select: none; }
+  h1, h2, h3, p, pre, code, figcaption, .lede, .reel p, .facts strong, .facts span, .cast-note, .agent p,
+  footer p, footer a, footer li, .tile span { -webkit-user-select: text; user-select: text; }
+  img, video, .deco, .props, .marquee, .hero-art, .banner { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   /* Navegación: una línea, 64 px */
@@ -160,10 +167,22 @@
   .agent p { margin: 0; color: var(--muted); font-size: 16px; }
   @media (max-width: 760px) { .agents { grid-template-columns: 1fr; } }
 
-  footer { border-top: 1px solid var(--line); padding: 44px 0 64px; }
-  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; color: var(--muted); font-size: 15px; }
-  footer .row { display: flex; align-items: center; gap: 16px; }
-  footer img { width: 54px; }
+  footer { border-top: 1px solid var(--line); padding: 64px 0 40px; margin-top: 40px; }
+  .foot { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 40px; align-items: start; }
+  .foot-brand { display: grid; grid-template-columns: 64px 1fr; gap: 16px; align-items: start; }
+  .foot-brand img { width: 64px; }
+  .foot-brand p { margin: 0; color: var(--muted); font-size: 15px; max-width: 34ch; }
+  .foot-brand p strong { color: var(--ink); display: block; font-size: 18px; margin-bottom: 4px; }
+  .foot h4 { margin: 4px 0 14px; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .foot li { color: var(--muted); font-size: 15px; }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+  .foot-bottom { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 48px; padding-top: 22px;
+                 border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  .foot-bottom p { margin: 0; }
+  @media (max-width: 860px) { .foot { grid-template-columns: 1fr 1fr; } .foot-brand { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .foot { grid-template-columns: 1fr; } }
 
   /* Aparición al entrar en pantalla: comunica orden de lectura. */
   @media (prefers-reduced-motion: no-preference) {
@@ -345,8 +364,43 @@
 
 <footer>
   <div class="wrap">
-    <div class="row"><img src="media/cut/personaje-gato.webp" alt="" loading="lazy"><span>Voxel Factory, licencia MIT</span></div>
-    <a class="btn secondary" href="https://github.com/Mats2208/voxel-factory">Ver en GitHub</a>
+    <div class="foot">
+      <div class="foot-brand">
+        <img src="media/cut/personaje-gato.webp" alt="" loading="lazy">
+        <p><strong>Voxel Factory</strong>Hecha por <a href="https://github.com/Mats2208">Mateo Andres Soto Gareca</a> (@Mats2208). Código abierto bajo licencia MIT.</p>
+      </div>
+      <div>
+        <h4>Proyecto</h4>
+        <ul>
+          <li><a href="https://github.com/Mats2208/voxel-factory">Repositorio</a></li>
+          <li><a href="https://github.com/Mats2208/voxel-factory/blob/main/AGENTS.md">Guía para agentes</a></li>
+          <li><a href="https://github.com/Mats2208/voxel-factory/tree/main/skills/voxel-factory">Skill para agentes</a></li>
+          <li><a href="https://github.com/Mats2208/voxel-factory/issues">Reportar un problema</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Hecho con</h4>
+        <ul>
+          <li><a href="https://www.blender.org">Blender</a> y EEVEE</li>
+          <li><a href="https://ffmpeg.org">FFmpeg</a> y libass</li>
+          <li><a href="https://modal.com">Modal</a> para las GPUs</li>
+          <li><a href="https://elevenlabs.io">ElevenLabs</a> para las voces</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Esta página</h4>
+        <ul>
+          <li>Assets generados con gpt-image-2</li>
+          <li>Videos renderizados con la fábrica</li>
+          <li>Tipografías Geist y Geist Mono</li>
+          <li>Desarrollada con Claude Code</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 Mateo Andres Soto Gareca. Licencia MIT.</p>
+      <p><a href="https://github.com/Mats2208/voxel-factory">Ver en GitHub</a></p>
+    </div>
   </div>
 </footer>
 
