@@ -1,6 +1,6 @@
 <div align="center">
 
-# Voxel Factory
+<img src="docs/media/hero.webp" alt="Voxel Factory: un robot, un gato, un cubo con cara pixelada y una persona con gorra, todos voxel, sobre un teclado índigo" width="100%"/>
 
 **Le decís a tu agente _«un robot y un gato discuten por el teclado»_ y te devuelve un MP4 vertical animado, con voces y subtítulos.**
 

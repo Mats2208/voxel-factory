@@ -10,3 +10,5 @@ demos/
 videos/*/tomas/
 videos/*/preview.mp4
 *.blend1
+docs/media/gen/*.png
+docs/media/gen/prompts/*.log
