@@ -1,0 +1,29 @@
+{
+  "description": "Robot voxel de pantalla: ojos cian, antena con luz y brazos articulados. Partes animables: brazo_i, brazo_d, antena.",
+  "type": "custom",
+  "materials": {"metal": "#9aa3b5", "oscuro": "#262b36", "pantalla": "#0a0f1e", "luz": "#4fe3ff", "acento": "#ff6b3d"},
+  "head": "cabeza",
+  "mouth": "boca",
+  "closeup": {"position": [0.8, -8.2, 2.5], "target": [0, 0, 1.75], "span": 4.8},
+  "parts": [
+    {"id": "pierna_i", "position": [-0.38, 0, 0.62], "offset": [0, 0, -0.26], "size": [0.38, 0.44, 0.52], "material": "metal", "bevel": 0.04},
+    {"id": "pie_i", "parent": "pierna_i", "position": [0, -0.08, -0.54], "size": [0.5, 0.7, 0.16], "material": "oscuro", "bevel": 0.03},
+    {"id": "pierna_d", "position": [0.38, 0, 0.62], "offset": [0, 0, -0.26], "size": [0.38, 0.44, 0.52], "material": "metal", "bevel": 0.04},
+    {"id": "pie_d", "parent": "pierna_d", "position": [0, -0.08, -0.54], "size": [0.5, 0.7, 0.16], "material": "oscuro", "bevel": 0.03},
+    {"id": "cuerpo", "position": [0, 0, 1.32], "size": [1.5, 1.0, 1.36], "material": "metal", "bevel": 0.07},
+    {"id": "pecho", "parent": "cuerpo", "position": [0, -0.51, 0.08], "size": [0.72, 0.04, 0.5], "material": "oscuro"},
+    {"id": "luz_pecho", "parent": "pecho", "position": [0, -0.03, 0], "size": [0.18, 0.03, 0.18], "material": "acento"},
+    {"id": "brazo_i", "parent": "cuerpo", "position": [-0.9, 0, 0.5], "offset": [0, 0, -0.4], "size": [0.26, 0.32, 0.86], "material": "metal", "bevel": 0.04},
+    {"id": "mano_i", "parent": "brazo_i", "position": [0, 0, -0.92], "size": [0.36, 0.38, 0.26], "material": "oscuro", "bevel": 0.04},
+    {"id": "brazo_d", "parent": "cuerpo", "position": [0.9, 0, 0.5], "offset": [0, 0, -0.4], "size": [0.26, 0.32, 0.86], "material": "metal", "bevel": 0.04},
+    {"id": "mano_d", "parent": "brazo_d", "position": [0, 0, -0.92], "size": [0.36, 0.38, 0.26], "material": "oscuro", "bevel": 0.04},
+    {"id": "cuello", "position": [0, 0, 2.08], "size": [0.42, 0.42, 0.26], "material": "oscuro"},
+    {"id": "cabeza", "position": [0, 0, 2.2], "offset": [0, 0, 0.42], "size": [1.34, 1.0, 0.84], "material": "metal", "bevel": 0.07},
+    {"id": "pantalla", "parent": "cabeza", "position": [0, -0.51, 0.42], "size": [1.08, 0.04, 0.62], "material": "pantalla"},
+    {"id": "ojo_i", "parent": "pantalla", "position": [-0.26, -0.03, 0.09], "size": [0.18, 0.02, 0.18], "material": "luz"},
+    {"id": "ojo_d", "parent": "pantalla", "position": [0.26, -0.03, 0.09], "size": [0.18, 0.02, 0.18], "material": "luz"},
+    {"id": "boca", "parent": "pantalla", "position": [0, -0.03, -0.15], "size": [0.42, 0.02, 0.07], "material": "luz"},
+    {"id": "antena", "parent": "cabeza", "position": [0, 0, 0.84], "offset": [0, 0, 0.2], "size": [0.06, 0.06, 0.4], "material": "metal"},
+    {"id": "bola", "parent": "antena", "position": [0, 0, 0.44], "size": [0.15, 0.15, 0.15], "material": "acento", "bevel": 0.03}
+  ]
+}

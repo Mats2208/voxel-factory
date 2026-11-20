@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.cache/
+.voxel/
+renders/
+analysis/
+demos/
+videos/*/tomas/
+videos/*/preview.mp4
+*.blend1

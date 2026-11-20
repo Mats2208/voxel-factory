@@ -1,0 +1,16 @@
+{
+  "title": "Persona y cubo",
+  "language": "es",
+  "characters": {
+    "A": {"type": "person", "position": [-1.64, 0, 0], "cap_text": "VOXEL", "cap_color": "#1f9e8f"},
+    "B": {"type": "cube", "position": [1.61, 0.2, 0], "scale": 0.88}
+  },
+  "stage": {"type": "terminal"},
+  "dialogue": [
+    {"speaker": "A", "text": "¿Viste mi café?", "pose": "question"},
+    {"speaker": "B", "text": "Lo convertí en código.", "emotion": "smug", "beats": [{"at": 0.4, "icon": "sparkle"}]},
+    {"speaker": "A", "text": "¿Y funciona?", "pose": "explain"},
+    {"speaker": "B", "text": "Compila. Que es distinto.", "emotion": "worried", "beats": [{"at": 0.3, "icon": "sweat"}]},
+    {"speaker": "A", "text": "Como yo los lunes.", "pose": "shrug"}
+  ]
+}

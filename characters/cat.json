@@ -1,0 +1,29 @@
+{
+  "description": "Gato voxel sentado: orejas, hocico, bigotes y cola. Partes animables: cola, oreja_i, oreja_d.",
+  "type": "custom",
+  "materials": {"pelo": "#e8a35a", "claro": "#f6e3c8", "oscuro": "#3a2a20", "nariz": "#e86a8a", "ojo": "#1d2a1d"},
+  "head": "cabeza",
+  "mouth": "boca",
+  "closeup": {"position": [0.6, -7.0, 1.7], "target": [0, 0, 1.25], "span": 3.6},
+  "parts": [
+    {"id": "cuerpo", "position": [0, 0.1, 0.68], "size": [1.2, 1.0, 1.2], "material": "pelo", "bevel": 0.07},
+    {"id": "panza", "parent": "cuerpo", "position": [0, -0.51, -0.06], "size": [0.68, 0.04, 0.8], "material": "claro"},
+    {"id": "pata_i", "position": [-0.32, -0.42, 0.2], "size": [0.3, 0.3, 0.4], "material": "pelo", "bevel": 0.04},
+    {"id": "pata_d", "position": [0.32, -0.42, 0.2], "size": [0.3, 0.3, 0.4], "material": "pelo", "bevel": 0.04},
+    {"id": "dedos_i", "parent": "pata_i", "position": [0, -0.16, -0.14], "size": [0.3, 0.04, 0.12], "material": "claro"},
+    {"id": "dedos_d", "parent": "pata_d", "position": [0, -0.16, -0.14], "size": [0.3, 0.04, 0.12], "material": "claro"},
+    {"id": "cola", "position": [0.55, 0.45, 0.45], "offset": [0, 0, 0.5], "size": [0.18, 0.18, 1.0], "material": "pelo", "bevel": 0.03},
+    {"id": "cabeza", "position": [0, -0.05, 1.3], "offset": [0, 0, 0.46], "size": [1.3, 1.05, 0.95], "material": "pelo", "bevel": 0.06},
+    {"id": "oreja_i", "parent": "cabeza", "position": [-0.42, 0, 0.98], "size": [0.32, 0.26, 0.36], "material": "pelo", "bevel": 0.03},
+    {"id": "oreja_d", "parent": "cabeza", "position": [0.42, 0, 0.98], "size": [0.32, 0.26, 0.36], "material": "pelo", "bevel": 0.03},
+    {"id": "interior_i", "parent": "oreja_i", "position": [0, -0.14, -0.02], "size": [0.16, 0.02, 0.2], "material": "nariz"},
+    {"id": "interior_d", "parent": "oreja_d", "position": [0, -0.14, -0.02], "size": [0.16, 0.02, 0.2], "material": "nariz"},
+    {"id": "hocico", "parent": "cabeza", "position": [0, -0.54, 0.28], "size": [0.52, 0.04, 0.3], "material": "claro"},
+    {"id": "nariz", "parent": "cabeza", "position": [0, -0.57, 0.4], "size": [0.14, 0.03, 0.09], "material": "nariz"},
+    {"id": "ojo_i", "parent": "cabeza", "position": [-0.3, -0.54, 0.62], "size": [0.16, 0.03, 0.22], "material": "ojo"},
+    {"id": "ojo_d", "parent": "cabeza", "position": [0.3, -0.54, 0.62], "size": [0.16, 0.03, 0.22], "material": "ojo"},
+    {"id": "boca", "parent": "cabeza", "position": [0, -0.575, 0.24], "size": [0.22, 0.02, 0.06], "material": "oscuro"},
+    {"id": "bigote_i", "parent": "cabeza", "position": [-0.46, -0.56, 0.32], "size": [0.36, 0.02, 0.025], "material": "oscuro"},
+    {"id": "bigote_d", "parent": "cabeza", "position": [0.46, -0.56, 0.32], "size": [0.36, 0.02, 0.025], "material": "oscuro"}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "title": "Robot y gato",
+  "language": "es",
+  "characters": {
+    "A": {"preset": "robot", "position": [-1.7, 0, 0]},
+    "B": {"preset": "cat", "position": [1.7, 0.2, 0], "scale": 1.15}
+  },
+  "stage": {"type": "terminal"},
+  "dialogue": [
+    {"speaker": "B", "text": "Ese teclado es mío.",
+     "acting": {"parts": {"cola": [[0, 0, 0, 0], [8, 0, 25, 0], [16, 0, -25, 0], [24, 0, 25, 0], [32, 0, 0, 0]]}}},
+    {"speaker": "A", "text": "Detecto un gato sobre el teclado.",
+     "acting": {"parts": {"brazo_d": [[0, 0, 0, 0], [10, -70, 0, 0], [20, -55, 0, 12], [30, -70, 0, -12], [44, 0, 0, 0]]}}},
+    {"speaker": "B", "text": "Detectás bien. Ahora dame atún."},
+    {"speaker": "A", "text": "No tengo atún. Tengo documentación.",
+     "acting": {"parts": {"antena": [[0, 0, 0, 0], [6, 0, 18, 0], [12, 0, -18, 0], [18, 0, 0, 0]]}}},
+    {"speaker": "B", "text": "Peor todavía.", "shot": "wide"}
+  ]
+}

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voxel Factory</title>
+<meta name="description" content="Fábrica de videos voxel verticales: de un guion JSON a un MP4 con personajes 3D, voces, gestos, cámaras y subtítulos. Blender sin abrirlo, local o en GPUs de Modal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07071a; --panel: #0e0f2b; --line: #23255a; --ink: #e9eaff; --muted: #9a9ccc;
+    --orange: #e2611a; --cyan: #4fe3ff; --indigo: #5b47ff; --red: #ff2614;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Space Grotesk', system-ui, sans-serif; }
+  body {
+    background-image:
+      linear-gradient(rgba(91,71,255,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,71,255,.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  a { color: var(--cyan); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 72px 0 40px; }
+  .tag { display: inline-flex; gap: 8px; align-items: center; font: 600 12px 'JetBrains Mono', monospace; letter-spacing: .08em;
+         text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 6px 10px; }
+  .tag i { width: 8px; height: 8px; background: var(--red); box-shadow: 0 0 12px var(--red); display: inline-block; }
+  h1 { font-size: clamp(44px, 9vw, 104px); line-height: .92; margin: 22px 0 18px; letter-spacing: -.03em; }
+  h1 span { color: var(--orange); }
+  .lead { font-size: clamp(18px, 2.4vw, 23px); line-height: 1.45; color: #cfd0f5; max-width: 760px; margin: 0; }
+  .lead em { color: var(--ink); font-style: normal; border-bottom: 2px solid var(--orange); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn { font: 600 15px 'JetBrains Mono', monospace; padding: 13px 18px; text-decoration: none; border: 2px solid var(--ink);
+         color: var(--bg); background: var(--ink); box-shadow: 5px 5px 0 var(--indigo); }
+  .btn.ghost { background: transparent; color: var(--ink); box-shadow: 5px 5px 0 var(--orange); }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 30px; margin: 0 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 26px; font-size: 17px; }
+  .reels { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+  figure { margin: 0; background: var(--panel); border: 1px solid var(--line); padding: 12px; }
+  video { width: 100%; aspect-ratio: 9 / 16; display: block; background: #000; }
+  figcaption { font-size: 14px; color: var(--muted); padding: 10px 2px 2px; line-height: 1.45; }
+  figcaption b { color: var(--ink); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 34px; }
+  .stat { border: 1px solid var(--line); background: rgba(14,15,43,.7); padding: 16px; }
+  .stat b { display: block; font-size: 34px; color: var(--cyan); }
+  .stat span { color: var(--muted); font-size: 14px; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .step { border: 1px solid var(--line); background: var(--panel); padding: 18px; }
+  .step .n { font: 600 13px 'JetBrains Mono', monospace; color: var(--orange); }
+  .step h3 { margin: 8px 0 6px; font-size: 19px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  pre { background: #04040f; border: 1px solid var(--line); padding: 18px; overflow-x: auto; font: 14px/1.6 'JetBrains Mono', monospace;
+        color: #d9dbef; margin: 0; }
+  pre .c { color: #6d72a8; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 11px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); color: var(--muted); font-weight: 500; }
+  .tablewrap { overflow-x: auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font: 13px 'JetBrains Mono', monospace; border: 1px solid var(--line); padding: 5px 9px; color: #cfd0f5; }
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  @media (max-width: 560px) { header { padding-top: 48px; } .btn { width: 100%; text-align: center; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="tag"><i></i> Blender headless · local o Modal</span>
+    <h1>Voxel<br><span>Factory</span></h1>
+    <p class="lead">Le decís a tu agente <em>«un robot y un gato discuten por el teclado»</em> y te devuelve un MP4 vertical con personajes voxel en 3D, voces, boca sincronizada, gestos, cámaras y subtítulos. Sin abrir Blender.</p>
+    <div class="cta">
+      <a class="btn" href="https://github.com/Mats2208/voxel-factory">Ver el repo</a>
+      <a class="btn ghost" href="https://github.com/Mats2208/voxel-factory/blob/main/AGENTS.md">Guía para agentes</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>11</b><span>subcomandos CLI</span></div>
+      <div class="stat"><b>16</b><span>emociones</span></div>
+      <div class="stat"><b>10</b><span>íconos pixelados</span></div>
+      <div class="stat"><b>9</b><span>comprobaciones por MP4</span></div>
+      <div class="stat"><b>0</b><span>dependencias pip</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Hechos con la fábrica</h2>
+    <p class="sub">Guion, voces de ElevenLabs y render en GPUs de Modal. Ningún plano se encuadró a mano.</p>
+    <div class="reels">
+      <figure>
+        <video src="media/robot-y-gato.mp4" poster="media/robot-y-gato.jpg" controls playsinline preload="none"></video>
+        <figcaption><b>Robot y gato.</b> Dos presets armados con piezas en JSON. El robot saluda con el brazo y el gato mueve la cola; las piezas se animan desde el guion.</figcaption>
+      </figure>
+      <figure>
+        <video src="media/persona-y-cubo.mp4" poster="media/persona-y-cubo.jpg" controls playsinline preload="none"></video>
+        <figcaption><b>Persona y cubo.</b> Los personajes integrados: poses de brazos, cabeza a tres cuartos y el cubo con ojos, bocas e íconos que aparecen en la palabra justa.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cómo funciona</h2>
+    <p class="sub">Un guion entra, sale un video verificado. Cada paso devuelve errores accionables a tu agente.</p>
+    <div class="steps">
+      <div class="step"><span class="n">01 · guion</span><h3>Personajes y líneas</h3><p>JSON simple: quién habla, qué dice y, si querés, la emoción, la pose o el plano. Los tiempos se calculan solos.</p></div>
+      <div class="step"><span class="n">02 · voces</span><h3>say, espeak-ng o ElevenLabs</h3><p>Mide cada voz, recorta el silencio y usa el tiempo de cada palabra para la boca y los gestos.</p></div>
+      <div class="step"><span class="n">03 · escena</span><h3>Blender sin abrirse</h3><p>Personajes voxel, escenario de terminal en capas, perspectiva con desenfoque y etalonaje AgX. En tu GPU o repartido en GPUs de Modal.</p></div>
+      <div class="step"><span class="n">04 · verificación</span><h3>MP4 comprobado</h3><p>Decodifica el MP4 entero y revisa el formato vertical, el audio en cada línea y los subtítulos en cada intervalo antes de entregar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Probalo</h2>
+    <p class="sub">Python 3.10+, Blender 4.2+ y FFmpeg con libass. No hay <code>pip install</code>.</p>
+<pre><span class="c"># un guion desde líneas de diálogo</span>
+python3 voxel.py new -o videos/teclado/guion.json --cast A=robot,B=cat \
+  --line "B: Ese teclado es mío." --line "A: Detecto un gato sobre el teclado."
+
+python3 voxel.py validate videos/teclado/guion.json   <span class="c"># voces, tiempos y planos</span>
+python3 voxel.py preview  videos/teclado/guion.json   <span class="c"># muestra de 3 s</span>
+python3 voxel.py render   videos/teclado/guion.json --cloud modal
+<span class="c"># → videos/teclado/tomas/toma-01/  video.mp4 · video.srt · escena.blend</span>
+python3 voxel.py open videos/teclado                  <span class="c"># la escena en tu Blender, sin renderizar</span></pre>
+  </section>
+
+  <section>
+    <h2>Personajes</h2>
+    <p class="sub">No está atado a ningún elenco. Un personaje nuevo es un archivo JSON de piezas, no código.</p>
+    <div class="tablewrap">
+    <table>
+      <tr><th>Tipo</th><th>Qué es</th><th>Se controla con</th></tr>
+      <tr><td><code>person</code></td><td>Humano voxel con gorra y cadena opcionales</td><td>7 poses de brazos, cabeza a tres cuartos, cejas que reaccionan</td></tr>
+      <tr><td><code>cube</code></td><td>Criatura cúbica de cara pixelada</td><td>16 emociones, bocas en reposo y 10 íconos sincronizados con las palabras</td></tr>
+      <tr><td><code>preset</code></td><td>Personajes de <code>characters/*.json</code>: <code>robot</code>, <code>cat</code></td><td>Animación de cada pieza desde el guion (brazos, cola, antena…)</td></tr>
+      <tr><td><code>custom</code></td><td>Piezas definidas dentro del guion</td><td>Pivotes, materiales y primer plano propios</td></tr>
+    </table>
+    </div>
+    <p class="sub" style="margin-top:22px">Emociones del cubo</p>
+    <div class="chips">
+      <span class="chip">neutral</span><span class="chip">happy</span><span class="chip">sad</span><span class="chip">crying</span><span class="chip">sarcastic</span><span class="chip">surprised</span><span class="chip">wink</span><span class="chip">speaking</span><span class="chip">angry</span><span class="chip">worried</span><span class="chip">love</span><span class="chip">dizzy</span><span class="chip">sleepy</span><span class="chip">excited</span><span class="chip">whisper</span><span class="chip">smug</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Local o en la nube</h2>
+    <p class="sub">Mismo comando y mismo resultado. Cambia dónde corre Blender.</p>
+    <div class="tablewrap">
+    <table>
+      <tr><th></th><th>Local</th><th>Modal (<code>--cloud modal</code>)</th></tr>
+      <tr><td>GPU</td><td>La tuya</td><td>L4, A10G o T4, en tramos de ~90 fotogramas en paralelo</td></tr>
+      <tr><td>Medido</td><td>~2 fotogramas/s en un M4 Pro</td><td>Un video de 66 s en 5 min 21 s, con un tope de 10 GPUs</td></tr>
+      <tr><td>Costo</td><td>Gratis; la GPU se calienta</td><td>Por segundo de GPU; se apaga sola al terminar</td></tr>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Hecho para agentes</h2>
+    <p class="sub">Claude Code, Codex o cualquier agente con terminal leen <a href="https://github.com/Mats2208/voxel-factory/blob/main/AGENTS.md">AGENTS.md</a> y pasan de un pedido a un video. Cada comando acepta <code>--json</code> y termina con códigos estables: 2 guion inválido, 3 falta una dependencia, 4 falló el render, 5 la verificación no pasó. <code>validate</code> lista todos los errores con su ruta y una sugerencia.</p>
+  </section>
+
+  <footer>
+    Voxel Factory · MIT · <a href="https://github.com/Mats2208/voxel-factory">github.com/Mats2208/voxel-factory</a>
+  </footer>
+</div>
+</body>
+</html>
